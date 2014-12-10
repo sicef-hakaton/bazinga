@@ -1,0 +1,11 @@
+<div id="login" class="d-log-in">
+    <form ng-submit="login()">
+    	<div class="d-error" ng-if='$root.flash'>{{$root.flash}}</div>
+		<fieldset class="radius">
+			<input type="text" name="email" placeholder="email" ng-model="credentials.email" class="form-control d-form-control" required/>
+			<input type="password" name="password" placeholder="password" ng-model="credentials.password" class="form-control d-form-control" required/>
+			<button type="submit" class="button large expand radius d-log-in-button">Log In</button>
+			<div class="d-register-div">or <a href="#/register" class="d-register-link">register</a></div>
+		</fieldset>
+    </form>
+</div>

@@ -1,0 +1,158 @@
+<div class="row" style="margin-bottom:20px;">
+  <div class="col-md-10">
+    <div class="row" style="margin-bottom:20px;">
+      <div class="col-md-6">
+          Faculty:
+          <ui-select ng-model="selectedFaculty.selected" theme="selectize" ng-disabled="disabled">
+            <ui-select-match placeholder="Select or search a faculty in the list...">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="faculty in educationalUnits | filter: $select.search">
+              <span ng-bind-html="faculty.name | highlight: $select.search"></span>
+            </ui-select-choices>
+          </ui-select>
+      </div>
+      <div class="col-md-6">
+          Subject:
+          <ui-select ng-model="subject.selected" theme="selectize" ng-disabled="disabled" on-select="selectSubject($item, $model)">
+            <ui-select-match placeholder="Select or search a subject in the list...">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="subject in selectedFaculty.selected.subjects | filter: $select.search">
+              <span ng-bind-html="subject.name | highlight: $select.search"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6" style="margin-bottom:20px;">
+          <input type="text" ng-model="searchCardText" class="form-control" placeholder="Search words" type="search">
+        </div>
+        <div class="col-md-6">
+          <label for=""><input type="checkbox" ng-model="showOnlyWatched" ng-init="showOnlyWatched=false"> Only show favorites</label>
+          <a ng-if="subject.selected.id" ng-href="{{appSettings.baseUrl}}/pdf/subject/{{subject.selected.id}}" target="_blank" class="btn btn-default " style="float:right;">Generate PDF</a>
+        </div>
+      </div>
+      </div>
+      <div class="col-md-2"  style="text-align: center;">
+         <button ng-disabled="!selectedFaculty.selected && !subject.selected" class="btn btn-success krug" ng-click="play()" style="border-radius: 50%; padding: 20px; margin-top: 20px; font-size: 39px; padding-right: 33px; padding-left: 37px;"><i class="fa fa-chevron-right"></i></button>
+      </div>
+</div>
+
+
+
+
+
+
+<div class="row">
+
+  <div class="col-md-4" ng-repeat="card in cards | filter: searchCardText | watched: showOnlyWatched">
+    <div class="card-container">
+      <div ng-class="{'flipped': card.flipped}" class="card">
+        <figure class="front">
+          <div class="card-red">
+            <i class="fa fa-circle" ng-class="{'fa-circle-thin': rate > card.rating}" ng-repeat="rate in [1,2,3,4,5]" style="margin-right:5px"></i>
+            <small>
+              <p> <i class="fa fa-graduation-cap"></i> {{ subject.selected.name }}</p>
+            </small>
+            <p class="overflow-hidden">{{ card.question }}</p>
+          </div>
+          <div ng-click="flipCard(card)">
+            <div class="card-button-red">
+              <i class="fa fa-refresh"></i>
+            </div>
+          </div>
+        </figure>
+
+        <figure class="back" style="overflow: hidden; height: 269px;">
+            <div class="card-green" style="overflow: hidden; height: 214px;">
+              <i class="fa fa-circle" ng-class="{'fa-circle-thin': rate > card.rating}" ng-repeat="rate in [1,2,3,4,5]" style="margin-right:5px"></i>
+
+              <small>
+                <p> <i class="fa fa-graduation-cap"></i> {{ getSelectedSubject() }}</p>
+              </small>
+
+              <div ng-bind-html="card.answer" style="font-size:24px;">asdasd</div>
+
+            </div>
+             <div ng-click="flipCard(card)">
+          <div class="card-button-green">
+            <i class="fa fa-refresh"></i>
+          </div>
+          </div>
+         </figure>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row" id="filteredCards" ng-class="{'backdrop': showBackdrop}">
+    <div class="card-container soft-hidden card-play" ng-class="{'show': filteredCard.show}" ng-repeat="filteredCard in filteredCards">
+      <div ng-class="{'flipped': filteredCard.flipped, 'animated bounceInRight': filteredCard.animateIn, 'animated bounceOutLeft': filteredCard.animateOut}" class="card play">
+        <figure class="front">
+          <div class="card-red card-play-height">
+            <i class="fa fa-circle" ng-class="{'fa-circle-thin': rate > filteredCard.rating}" ng-repeat="rate in [1,2,3,4,5]" style="margin-right:5px"></i>
+            <i ng-click="closeCards()" class="fa fa-times pointer" style="float:right;font-size:140%;"></i>
+            <small>
+              <p> <i class="fa fa-graduation-cap"></i> {{ subject.selected.name }}</p>
+            </small>
+            <p class="overflow-hidden" style="max-width:300px;margin-top:24px;">{{ filteredCard.question }}</p>
+          </div>
+          <div ng-click="flipCard(filteredCard)">
+            <div class="card-button-red pointer">
+              <i class="fa fa-refresh"></i>
+            </div>
+          </div>
+        </figure>
+        <figure class="back">
+            <div class="card-green card-play-height">
+              <div class="row">
+                <div class="col-xs-9">
+                  <i class="fa fa-circle" ng-class="{'fa-circle-thin': rate > filteredCard.rating}" ng-repeat="rate in [1,2,3,4,5]" style="margin-right:5px"></i>
+                </div>
+              <div class="col-xs-2">
+                <span ng-if="!filteredCard.didIReport" ng-click="reportCard(filteredCard)" class="pointer" style="border:1px solid white; float:right; padding:3px; padding-left:6px;padding-right:6px;margin-right:">Report</span>
+                <span ng-if="filteredCard.didIReport">Reported</span>
+              </div>
+              <div class="col-xs-1">
+                <i ng-click="closeCards()" class="fa fa-times pointer" style="float:right;font-size:140%;"></i>
+              </div>
+              </div>
+              <small>
+                <p> <i class="fa fa-graduation-cap"></i> {{ getSelectedSubject() }}</p>
+              </small>
+
+
+             <div class="" style="max-height:400px;overflow:hiden;margin-top:24px;font-size:24px" ng-bind-html="filteredCard.answer"></div>
+<hr>
+              <h2>Rate the question</h2>
+              <div class="rating" ng-disabled="filteredCard.didIRate">
+                <i class="fa pointer" ng-class="{'fa-circle': filteredCard.rating >= 1, 'fa-circle-o': filteredCard.rating < 1}" ng-click="rateCard(filteredCard, 1)" ng-mouseenter="hover = false"></i>
+                <i class="fa pointer" ng-class="{'fa-circle': filteredCard.rating >= 2, 'fa-circle-o': filteredCard.rating < 2}" ng-click="rateCard(filteredCard, 2)" ng-mouseenter="hover = false"></i>
+                <i class="fa pointer" ng-class="{'fa-circle': filteredCard.rating >= 3, 'fa-circle-o': filteredCard.rating < 3}" ng-click="rateCard(filteredCard, 3)" ng-mouseenter="hover = false"></i>
+                <i class="fa pointer" ng-class="{'fa-circle': filteredCard.rating >= 4, 'fa-circle-o': filteredCard.rating < 4}" ng-click="rateCard(filteredCard, 4)" ng-mouseenter="hover = false"></i>
+                <i class="fa pointer" ng-class="{'fa-circle': filteredCard.rating >= 5, 'fa-circle-o': filteredCard.rating < 5}" ng-click="rateCard(filteredCard, 5)" ng-mouseenter="hover = false"></i>
+                <i class="fa fa-check" class="soft-hidden" ng-class="{'flipInY': successRating}" ng-show="filteredCard.didIRate"></i>
+              </div>
+            </div>
+
+              <div class="card-button-green">
+                <div class="row">
+                  <div class="col-xs-5">
+                    <p class="pointer" style="margin:0;" ng-click="toggleHard(filteredCard)">
+                    <i style="color:gold" class="fa" ng-class="{'fa-star': filteredCard.watch, 'fa-star-o': !filteredCard.watch}"></i>
+                    </p>
+                  </div>
+
+                  <div class="col-xs-2 pointer" ng-click="flipCard(filteredCard)">
+                    <i class="fa fa-refresh"></i>
+                  </div>
+
+                  <div class="col-xs-5 pointer" ng-click="next()">
+                    <p style="margin:0;">Next</p>
+                  </div>
+
+              </div>
+             </div>
+
+         </figure>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    Faculty:
+    <ui-select ng-model="selectedFaculty.selected" theme="selectize" ng-disabled="disabled">
+      <ui-select-match placeholder="Select or search a faculty in the list...">{{$select.selected.name}}</ui-select-match>
+      <ui-select-choices repeat="faculty in educationalUnits | filter: $select.search">
+        <span ng-bind-html="faculty.name | highlight: $select.search"></span>
+      </ui-select-choices>
+    </ui-select>
+  </div>
+  <div class="col-md-3"></div>
+</div>
+<div class="row">
+   <div class="col-md-3"></div>
+  <div class="col-md-6">
+    Subject:
+    <ui-select ng-model="subject.selected" theme="selectize" ng-disabled="disabled">
+      <ui-select-match placeholder="Select or search a subject in the list...">{{$select.selected.name}}</ui-select-match>
+      <ui-select-choices repeat="subject in selectedFaculty.selected.subjects | filter: $select.search">
+        <span ng-bind-html="subject.name | highlight: $select.search"></span>
+      </ui-select-choices>
+    </ui-select>
+  </div>
+   <div class="col-md-3"></div>
+</div>
+
+  <div class="row" style="margin-top: 20px;">
+    <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <section class="card-container " ng-init="flip = false">
+          <div class="card" ng-class="{'flipped':flip}">
+            <figure class="front ">            
+                <div class="card-green"> 
+                    <textarea type="text" ng-model="newCard.question" class="form-control" rows="5" id="comment" placeholder="Add question">
+                    </textarea>
+                </div>
+                <div ng-click="flip=!flip">
+                   <div class="card-button-green">
+                    <i class="fa fa-refresh"></i>
+                  </div>
+                </div>
+               
+
+              
+            </figure>
+            <figure class="back">
+              <div class="card-green"> 
+                  <textarea  type="text"  ng-model="newCard.answer" class="form-control" rows="5" id="comment" placeholder="Answer">
+                  </textarea>
+              </div>
+                <div ng-click="flip=!flip">
+                 <div class="card-button-green">
+                    <i class="fa fa-refresh"></i>
+                  </div>
+                </div>
+                <div class="card-button-green">
+                    <div ng-click="addCard(newCard)" class="pointer">Add Card</div>
+                </div> 
+            </figure>
+          </div>
+        </section>
+      </div>
+    <div class="col-md-3"></div>
+  </div>
+

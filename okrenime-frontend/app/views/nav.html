@@ -1,0 +1,26 @@
+<header class="navbar navbar-default navbar-static-top bs-docs-nav" id="top" role="banner" ng-if="$root.user.id">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="btn-navbar navbar-toggle collapsed d-head-button" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="#" class="navbar-brand">okreni me</a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="#/home">Home</a>
+        </li>
+        <li>
+          <a href="#/card/add">Add</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><button class="btn btn-default" style="margin-top:10px" ng-click"$root.logout()">Log out</button></li>
+      </ul>
+    </nav>
+  </div>
+</header>

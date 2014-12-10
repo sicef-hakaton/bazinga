@@ -1,0 +1,33 @@
+<section class="card-container">
+  <div class="card" ng-class="{'flipped':flip}">
+    <figure class="front">
+      <div id="login" class="d-log-in">
+        <h3>Login</h3>
+          <form ng-submit="login()">
+          <fieldset class="radius">
+            <input type="text" name="email" placeholder="email" ng-model="credentials.email" class="form-control d-form-control" required/>
+            <input type="password" name="password" placeholder="password" ng-model="credentials.password" class="form-control d-form-control" required/>
+            <button type="submit" class="button large expand radius d-log-in-button">Log In</button>
+            <div class="d-register-div">or <a ng-click="flip=!flip" class="d-register-link">register</a></div>
+          </fieldset>
+          </form>
+      </div>
+    </figure>
+    <figure class="back">
+      <div id="register"  class="d-log-in">
+        <h3>Register</h3>
+        <div class="d-error" ng-if="$root.flash">{{$root.flash}}</div>
+          <form ng-submit="register()">
+            <fieldset class="radius">
+              <!--<input type="text" name="username" placeholder="username" ng-model="credentials.username" class="form-control d-form-control" required/>-->
+              <input type="text" name="email" placeholder="email" ng-model="credentials.email" class="form-control d-form-control" required/>
+              <input type="password" name="password" placeholder="password" ng-model="credentials.password" class="form-control d-form-control" required/>
+              <button type="submit" class="button large expand radius d-log-in-button">Register</button>
+              <div class="d-register-div">or <a ng-click="flip=!flip" class="d-register-link">log in</a></div>
+            </fieldset>
+          </form>
+      </div>
+
+    </figure>
+  </div>
+</section>
