@@ -45,7 +45,7 @@ If you installed these tools, make sure they are on your path. Next step is to
 specify location of your database and credentials for it. You can find them here:
 	- ${project_root}/repository/src/main/resources/database.properties
 
-Afterwards, follow these steps to build and run project:
+Afterwards, follow these steps to build and run project:  
 1. Run `mvn clean install` in project root to build it  
 2. Go into _${project_root}/rest/target_  
 3. Pick up _rest.war_ and put it into your servlet container (eg. Apache Tomcat)  
