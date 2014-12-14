@@ -46,10 +46,10 @@ specify location of your database and credentials for it. You can find them here
 	- ${project_root}/repository/src/main/resources/database.properties
 
 Afterwards, follow these steps to build and run project:
-1. Run `mvn clean install` in project root to build it
-2. Go into _${project_root}/rest/target_
-3. Pick up _rest.war_ and put it into your servlet container (eg. Apache Tomcat)
-4. Start servlet container
+1. Run `mvn clean install` in project root to build it  
+2. Go into _${project_root}/rest/target_  
+3. Pick up _rest.war_ and put it into your servlet container (eg. Apache Tomcat)  
+4. Start servlet container  
 
 
 ## Uputstvo za pokretanje (frontend)
